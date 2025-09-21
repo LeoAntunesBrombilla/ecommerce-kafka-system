@@ -3,44 +3,31 @@ import { Order, OrderStatus } from './entities/order.entity';
 import { KafkaProducerService } from 'src/kafka/kafka-producer.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { OrderCreatedEvent, OrderUpdatedEvent } from 'src/kafka/kafka.config';
+import { OrderRepository } from './order.repository';
 
 @Injectable()
 export class OrderService {
   private orders: Map<string, Order> = new Map();
 
-  constructor(private readonly kafkaProducer: KafkaProducerService) {}
+  constructor(
+    private readonly kafkaProducer: KafkaProducerService,
+    private readonly orderRepository: OrderRepository,
+  ) {}
 
   async createOrder(createOrderDto: CreateOrderDto): Promise<Order> {
-    //TODO improve the id, and use real db
-    const orderId = `order-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-    const totalAmount = createOrderDto.items.reduce(
-      (sum, item) => sum + item.price * item.quantity,
-      0,
-    );
-
-    const order = new Order({
-      id: orderId,
-      customerId: createOrderDto.customerId,
-      items: createOrderDto.items,
-      totalAmount,
-      status: OrderStatus.PENDING,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    });
-
-    this.orders.set(orderId, order);
+    const order = await this.orderRepository.create(createOrderDto);
 
     const orderCreatedEvent: OrderCreatedEvent = {
       orderId: order.id,
       customerId: order.customerId,
       items: order.items,
-      totalAmount: order.totalAmount,
+      totalAmount: Number(order.totalAmount),
       createdAt: order.createdAt.toString(),
     };
 
     await this.kafkaProducer.publishOrderCreatedEvent(orderCreatedEvent);
     console.log(
-      `✅ Order created: ${orderId} for customer: ${order.customerId}`,
+      `✅ Order created: ${order.id} for customer: ${order.customerId}`,
     );
     return order;
   }
@@ -49,7 +36,7 @@ export class OrderService {
     orderId: string,
     status: OrderStatus,
   ): Promise<Order | null> {
-    const order = this.orders.get(orderId);
+    const order = await this.orderRepository.updateStatus(orderId, status);
     if (!order) {
       console.warn(`⚠️ Order not found: ${orderId}`);
       return null;
@@ -70,15 +57,15 @@ export class OrderService {
     return order;
   }
 
-  getOrder(orderId: string): Order {
-    const order = this.orders.get(orderId);
+  async getOrder(orderId: string): Promise<Order> {
+    const order = await this.orderRepository.findById(orderId);
     if (!order) {
       throw new Error(`Order not found: ${orderId}`);
     }
     return order;
   }
 
-  getAllOrders(): Order[] {
-    return Array.from(this.orders.values());
+  async getAllOrders(): Promise<Order[]> {
+    return this.orderRepository.findAll();
   }
 }
