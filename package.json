@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "@nestjs/microservices": "^11.1.6",
+    "firebase-admin": "^13.5.0",
+    "kafkajs": "^2.2.4"
+  }
+}
