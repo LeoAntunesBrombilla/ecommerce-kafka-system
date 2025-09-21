@@ -1,7 +1,13 @@
 {
-  "dependencies": {
-    "@nestjs/microservices": "^11.1.6",
-    "firebase-admin": "^13.5.0",
-    "kafkajs": "^2.2.4"
+  "name": "ecommerce-kafka-system",
+  "version": "1.0.0",
+  "description": "Microservices e-commerce system with Kafka",
+  "scripts": {
+    "start:order": "cd services/order-service && npm run start:dev",
+    "start:inventory": "cd services/inventory-service && npm run start:dev",
+    "start:payment": "cd services/payment-service && npm run start:dev",
+    "start:notification": "cd services/notification-service && npm run start:dev",
+    "start:analytics": "cd services/analytics-service && npm run start:dev",
+    "install:all": "cd services/order-service && npm install && cd ../inventory-service && npm install && cd ../payment-service && npm install && cd ../notification-service && npm install && cd ../analytics-service && npm install"
   }
 }
