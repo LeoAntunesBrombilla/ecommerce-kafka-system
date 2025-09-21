@@ -1,0 +1,18 @@
+  PID TTY           TIME CMD
+  735 ttys000    0:01.57 -/bin/zsh
+ 1499 ttys000    0:00.00 -/bin/zsh
+ 1501 ttys000    0:00.29 -/bin/zsh
+ 1503 ttys000    0:00.00 -/bin/zsh
+ 1508 ttys000    0:01.06 /Users/leonardobrombilla/.cache/gitstatus/gitstatusd-darwin-arm64 -G v1.5.4 -s -1 -u -1 -d -1 -c -1 -m -1 -v FATAL -t 20
+ 7030 ttys000    0:00.02 tmux
+ 7121 ttys001    0:03.50 -zsh
+ 7783 ttys001    0:00.00 -zsh
+ 7784 ttys001    0:00.00 -zsh
+ 7785 ttys001    0:00.22 -zsh
+ 7791 ttys001    0:01.13 /Users/leonardobrombilla/.cache/gitstatus/gitstatusd-darwin-arm64 -G v1.5.4 -s -1 -u -1 -d -1 -c -1 -m -1 -v FATAL -t 20
+23806 ttys001    0:00.07 nvim .
+ 7798 ttys002    0:15.59 zsh
+19072 ttys002    0:00.00 zsh
+19650 ttys002    0:00.00 zsh
+19652 ttys002    0:00.20 zsh
+19653 ttys002    0:00.98 /Users/leonardobrombilla/.cache/gitstatus/gitstatusd-darwin-arm64 -G v1.5.4 -s -1 -u -1 -d -1 -c -1 -m -1 -v FATAL -t 20
