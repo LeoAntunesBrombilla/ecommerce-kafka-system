@@ -43,6 +43,7 @@ export class OrderRepository {
   }
 
   async updateStatus(id: string, status: OrderStatus): Promise<Order | null> {
+    console.log(`Updating order ${id} to status ${status}`);
     await this.orderRepository.update(id, { status });
     return this.findById(id);
   }
